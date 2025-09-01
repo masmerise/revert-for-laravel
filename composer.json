@@ -1,0 +1,48 @@
+{
+    "name": "masmerise/laravel-revert",
+    "description": "Revert new Laravel installations to version 10's skeleton.",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "revert"
+    ],
+    "authors": [
+        {
+            "name": "Muhammed Sari",
+            "email": "support@muhammedsari.me",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/masmerise/laravel-revert",
+    "require": {
+        "php": "~8.4",
+        "laravel/framework": "^12.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.6.1",
+        "laravel/pint": "^1.24",
+        "orchestra/testbench": "^10.6"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Masmerise\\Revert\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Masmerise\\Revert\\ServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "format": "vendor/bin/pint",
+        "larastan": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "verify": "@larastan"
+    }
+}
