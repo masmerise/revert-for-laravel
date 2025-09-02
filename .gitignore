@@ -7,3 +7,4 @@ composer.lock
 phpstan.neon
 vendor
 .php-cs-fixer.cache
+.DS_Store

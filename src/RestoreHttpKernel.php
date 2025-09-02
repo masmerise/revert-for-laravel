@@ -2,28 +2,22 @@
 
 namespace Masmerise\Revert;
 
-use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
-final readonly class RestoreHttpKernel
+final class RestoreHttpKernel extends Action
 {
-    public function handle(Revert $cli, Closure $next): Revert
+    protected string $description = 'Restoring App\\Http\\Kernel';
+
+    protected string $emoji = '🔄';
+
+    protected function run(Filesystem $files, Application $laravel): void
     {
-        $output = '🔄Restoring App\\Http\\Kernel...';
+        $files->copy($this->stubPath('app/Http/Kernel.stub.php'), $laravel->path('Http/Kernel.php'));
+    }
 
-        /** @var Application $laravel */
-        $laravel = $cli->getLaravel();
-
-        if ($laravel['files']->exists($target = $laravel->path('Http/Kernel.php'))) {
-            $cli->line("{$output} [skipped]");
-
-            return $next($cli);
-        }
-
-        $cli->line($output);
-
-        $laravel['files']->copy(__DIR__ . '/../stubs/app/Http/Kernel.stub.php', $laravel->path('Http/Kernel.php'));
-
-        return $next($cli);
+    protected function wasRun(Filesystem $files, Application $laravel): bool
+    {
+        return $files->exists($laravel->path('Http/Kernel.php'));
     }
 }

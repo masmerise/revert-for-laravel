@@ -2,29 +2,26 @@
 
 namespace Masmerise\Revert;
 
-use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
-final readonly class RestoreConsoleKernel
+final class RestoreConsoleKernel extends Action
 {
-    public function handle(Revert $cli, Closure $next): Revert
+    protected string $description = 'Restoring App\\Console\\Kernel';
+
+    protected string $emoji = '🔄';
+
+    protected function run(Filesystem $files, Application $laravel): void
     {
-        $output = '🔄Restoring App\\Console\\Kernel...';
-
-        /** @var Application $laravel */
-        $laravel = $cli->getLaravel();
-
-        if ($laravel['files']->isDirectory($laravel->path('Console'))) {
-            $cli->line("{$output} [skipped]");
-
-            return $next($cli);
+        if (! $files->isDirectory($dir = $laravel->path('Console'))) {
+            $files->makeDirectory($dir);
         }
 
-        $cli->line($output);
+        $files->copy($this->stubPath('app/Console/Kernel.stub.php'), "{$dir}/Kernel.php");
+    }
 
-        $laravel['files']->makeDirectory($laravel->path('Console'));
-        $laravel['files']->copy(__DIR__ . '/../stubs/app/Console/Kernel.stub.php', $laravel->path('Console/Kernel.php'));
-
-        return $next($cli);
+    protected function wasRun(Filesystem $files, Application $laravel): bool
+    {
+        return $files->isDirectory($dir = $laravel->path('Console')) && $files->exists("{$dir}/Kernel.php");
     }
 }

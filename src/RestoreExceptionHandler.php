@@ -2,29 +2,26 @@
 
 namespace Masmerise\Revert;
 
-use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
-final readonly class RestoreExceptionHandler
+final class RestoreExceptionHandler extends Action
 {
-    public function handle(Revert $cli, Closure $next): Revert
+    protected string $description = 'Restoring App\\Exceptions\\Handler';
+
+    protected string $emoji = '🔄';
+
+    protected function run(Filesystem $files, Application $laravel): void
     {
-        $output = '🔄Restoring App\\Exceptions\\Handler...';
-
-        /** @var Application $laravel */
-        $laravel = $cli->getLaravel();
-
-        if ($laravel['files']->isDirectory($laravel->path('Exceptions'))) {
-            $cli->line("{$output} [skipped]");
-
-            return $next($cli);
+        if (! $files->isDirectory($dir = $laravel->path('Exceptions'))) {
+            $files->makeDirectory($dir);
         }
 
-        $cli->line($output);
+        $files->copy($this->stubPath('app/Exceptions/Handler.stub.php'), "{$dir}/Handler.php");
+    }
 
-        $laravel['files']->makeDirectory($laravel->path('Exceptions'));
-        $laravel['files']->copy(__DIR__ . '/../stubs/app/Exceptions/Handler.stub.php', $laravel->path('Exceptions/Handler.php'));
-
-        return $next($cli);
+    protected function wasRun(Filesystem $files, Application $laravel): bool
+    {
+        return $files->isDirectory($dir = $laravel->path('Exceptions')) && $files->exists("{$dir}/Handler.php");
     }
 }

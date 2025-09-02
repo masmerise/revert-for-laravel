@@ -2,40 +2,34 @@
 
 namespace Masmerise\Revert;
 
-use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
-final readonly class RestoreRouteServiceProvider
+final class RestoreRouteServiceProvider extends Action
 {
-    public function handle(Revert $cli, Closure $next): Revert
+    protected string $description = 'Restoring App\\Providers\\RouteServiceProvider';
+
+    protected string $emoji = '🔄';
+
+    protected function run(Filesystem $files, Application $laravel): void
     {
-        $output = '🔄Restoring App\\Providers\\RouteServiceProvider...';
+        $stub = $this->isInertia($files, $laravel) ? 'RouteServiceProvider.inertia.stub.php' : 'RouteServiceProvider.stub.php';
 
-        /** @var Application $laravel */
-        $laravel = $cli->getLaravel();
-
-        if ($laravel['files']->exists($target = $laravel->path('Providers/RouteServiceProvider.php'))) {
-            $cli->line("{$output} [skipped]");
-
-            return $next($cli);
-        }
-
-        $cli->line($output);
-
-        $stub = $this->isInertia($laravel) ? 'RouteServiceProvider.inertia.stub.php' : 'RouteServiceProvider.stub.php';
-        $laravel['files']->copy(__DIR__ . "/../stubs/app/Providers/{$stub}", $target);
-
-        return $next($cli);
+        $files->copy($this->stubPath("app/Providers/{$stub}"), $laravel->path('Providers/RouteServiceProvider.php'));
     }
 
-    private function isInertia(Application $laravel): bool
+    protected function wasRun(Filesystem $files, Application $laravel): bool
     {
-        $schema = $laravel['files']->get($laravel->basePath('composer.json'));
+        return $files->exists($laravel->path('Providers/RouteServiceProvider.php'));
+    }
+
+    private function isInertia(Filesystem $files, Application $laravel): bool
+    {
+        $schema = $files->get($laravel->basePath('composer.json'));
         $schema = json_decode($schema, true);
 
         $name = $schema['name'] ?? null;
 
-        return $name === 'laravel/react-starter-kit'
-            || $name === 'laravel/vue-starter-kit';
+        return $name === 'laravel/react-starter-kit' || $name === 'laravel/vue-starter-kit';
     }
 }

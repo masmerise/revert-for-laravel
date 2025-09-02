@@ -2,29 +2,18 @@
 
 namespace Masmerise\Revert;
 
-use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 
-final readonly class ReconcileBootstrapProvidersWithConfigurationProviders
+final class ReconcileBootstrapProvidersWithConfigurationProviders extends Action
 {
-    public function handle(Revert $cli, Closure $next): Revert
+    protected string $description = 'Reconciling providers';
+
+    protected string $emoji = '🔀';
+
+    protected function run(Filesystem $files, Application $laravel): void
     {
-        $output = '🔀Reconciling providers...';
-
-        /** @var Application $laravel */
-        $laravel = $cli->getLaravel();
-
-        $configuration = $laravel['files']->get($target = $laravel->basePath('config/app.php'));
-
-        if (! str_contains($configuration, '/** {{$providers}} */')) {
-            $cli->line("{$output} [skipped]");
-
-            return $next($cli);
-        }
-
-        $cli->line($output);
-
         $providers = Collection::make(require $laravel->getBootstrapProvidersPath())
             ->merge(['App\\Providers\\RouteServiceProvider'])
             ->unique()
@@ -33,9 +22,15 @@ final readonly class ReconcileBootstrapProvidersWithConfigurationProviders
             ->map(static fn (string $p) => "{$p}::class,")
             ->join("\n        ");
 
-        $config = $laravel['files']->get($target);
-        $laravel['files']->put($target, str_replace('/** {{$providers}} */', $providers, $config));
+        $config = $files->get($target = $laravel->basePath('config/app.php'));
 
-        return $next($cli);
+        $files->put($target, str_replace('/** {{$providers}} */', $providers, $config));
+    }
+
+    protected function wasRun(Filesystem $files, Application $laravel): bool
+    {
+        $configuration = $files->get($laravel->basePath('config/app.php'));
+
+        return ! str_contains($configuration, '/** {{$providers}} */');
     }
 }

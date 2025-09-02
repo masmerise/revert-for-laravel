@@ -3,29 +3,24 @@
 namespace Masmerise\Revert;
 
 use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
-final readonly class RestoreApplicationBootstrapper
+final class RestoreApplicationBootstrapper extends Action
 {
-    public function handle(Revert $cli, Closure $next): Revert
+    protected string $description = 'Restoring bootstrap/app.php';
+
+    protected string $emoji = '🔄';
+
+    protected function run(Filesystem $files, Application $laravel): void
     {
-        $output = '🔄Restoring bootstrap/app.php...';
+        $files->copy($this->stubPath('bootstrap/app.stub.php'), $laravel->basePath('bootstrap/app.php'));
+    }
 
-        /** @var Application $laravel */
-        $laravel = $cli->getLaravel();
+    protected function wasRun(Filesystem $files, Application $laravel): bool
+    {
+        $bootstrapper = $files->get($laravel->basePath('bootstrap/app.php'));
 
-        $bootstrapper = $laravel['files']->get($target = $laravel->basePath('bootstrap/app.php'));
-
-        if (str_ends_with($bootstrapper, 'return $app;')) {
-            $cli->line("{$output} [skipped]");
-
-            return $next($cli);
-        }
-
-        $cli->line($output);
-
-        $laravel['files']->copy(__DIR__ . '/../stubs/bootstrap/app.stub.php', $target);
-
-        return $next($cli);
+        return str_ends_with($bootstrapper, 'return $app;');
     }
 }

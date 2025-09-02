@@ -2,30 +2,24 @@
 
 namespace Masmerise\Revert;
 
-use Closure;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
-final readonly class RestoreApplicationConfiguration
+final class RestoreApplicationConfiguration extends Action
 {
-    public function handle(Revert $cli, Closure $next): Revert
+    protected string $description = 'Restoring config/app.php';
+
+    protected string $emoji = '🔄';
+
+    protected function run(Filesystem $files, Application $laravel): void
     {
-        $output = '🔄Restoring config/app.php...';
+        $files->copy($this->stubPath('config/app.stub.php'), $laravel->basePath('config/app.php'));
+    }
 
-        /** @var Application $laravel */
-        $laravel = $cli->getLaravel();
+    protected function wasRun(Filesystem $files, Application $laravel): bool
+    {
+        $configuration = $files->get($laravel->basePath('config/app.php'));
 
-        $configuration = $laravel['files']->get($target = $laravel->basePath('config/app.php'));
-
-        if (str_contains($configuration, '| Autoloaded Service Providers')) {
-            $cli->line("{$output} [skipped]");
-
-            return $next($cli);
-        }
-
-        $cli->line($output);
-
-        $laravel['files']->copy(__DIR__ . '/../stubs/config/app.stub.php', $target);
-
-        return $next($cli);
+        return str_contains($configuration, '| Autoloaded Service Providers');
     }
 }
