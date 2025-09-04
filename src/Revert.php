@@ -4,7 +4,7 @@ namespace Masmerise\Revert;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Process\Process;
 
@@ -29,7 +29,7 @@ final class Revert extends Command
             return self::SUCCESS;
         }
 
-        new Pipeline($this->laravel)->send($this)->through([
+        Pipeline::send($this)->through([
             RestoreConsoleKernel::class,
             RestoreHttpKernel::class,
             RestoreExceptionHandler::class,
