@@ -7,7 +7,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/masmerise/laravel-revert.svg?style=flat-square)](https://packagist.org/packages/masmerise/laravel-revert)
 
 > [!WARNING]
-> This package is supposed to be used *right after* having installed a **fresh** Laravel project. 
+> This package is supposed to be used *right after* having installed a **fresh** Laravel project using `laravel new`. 
 > We are **not** responsible for any progress lost if you fail to follow this instruction.
 
 ## Why does this package exist?
