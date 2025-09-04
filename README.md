@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/masmerise/laravel-revert/raw/master/art/banner.png" alt="Laravel Revert Banner"></p>
+<p align="center"><img src="https://github.com/masmerise/laravel-revert/raw/master/art/banner.png" alt="Laravel Revert Banner" width="480" height="480"></p>
 
 # Revert new Laravel installations to the original v5 skeleton
 
@@ -37,7 +37,7 @@ which is the elimination of the new `ApplicationBuilder`:
 
 > [!NOTE]
 > If you need other previously available files such as `EventServiceProvider`,
-> add these yourself.
+> add these yourself. This package embraces the lean nature of the new structure except the `ApplicationBuilder`.
 
 ## Installation
 
