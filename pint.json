@@ -1,4 +1,5 @@
 {
+  "exclude": ["stubs"],
   "preset": "psr12",
   "rules": {
     "blank_line_after_opening_tag": false,

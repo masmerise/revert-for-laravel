@@ -2,7 +2,6 @@
 
 namespace Masmerise\Revert;
 
-use Closure;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
