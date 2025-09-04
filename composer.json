@@ -1,6 +1,6 @@
 {
     "name": "masmerise/laravel-revert",
-    "description": "Revert new Laravel installations to version 10's skeleton.",
+    "description": "Revert Laravel installations to the original v5 skeleton.",
     "license": "MIT",
     "keywords": [
         "laravel",
