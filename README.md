@@ -3,7 +3,6 @@
 # Revert Laravel installations to the original v5 skeleton
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/masmerise/laravel-revert.svg?style=flat-square)](https://packagist.org/packages/masmerise/laravel-revert)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/masmerise/laravel-revert/test.yml?branch=master)](https://github.com/masmerise/laravel-revert/actions?query=workflow%3A%22Automated+testing%22+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/masmerise/laravel-revert.svg?style=flat-square)](https://packagist.org/packages/masmerise/laravel-revert)
 
 > [!WARNING]
