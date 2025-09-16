@@ -4,6 +4,7 @@ namespace Masmerise\Revert;
 
 use Illuminate\Support\AggregateServiceProvider;
 
+/** @internal */
 final class ServiceProvider extends AggregateServiceProvider
 {
     public function boot(): void

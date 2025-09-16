@@ -5,11 +5,10 @@ namespace Masmerise\Revert;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
+/** @internal */
 final class RestoreApplicationConfiguration extends Action
 {
     protected string $description = 'Restoring config/app.php';
-
-    protected string $emoji = '🔄';
 
     protected function run(Filesystem $files, Application $laravel): void
     {

@@ -20,7 +20,7 @@ final class Revert extends Command
     public function handle(): int
     {
         if (version_compare($version = $this->laravel->version(), '12.0.0', '<')) {
-            $this->error("❌ Laravel 12 is required to run this command. This version is: {$version}");
+            $this->components->error("Laravel 12 is required to run this command. This version is: {$version}");
 
             return self::FAILURE;
         }
@@ -40,16 +40,18 @@ final class Revert extends Command
             RemoveBootstrapProviders::class,
         ])->thenReturn();
 
-        $this->info('✅ Laravel reverted to its former structure!');
+        $this->components->info('Laravel reverted to its former structure!');
 
-        if (! $this->confirm('🤔 Would you like to remove the package now?')) {
-            $this->info('👋 Do not forget to remove the package as it is no longer needed!');
+        if (! $this->components->confirm('Would you like to remove the package now?')) {
+            $this->components->success('Do not forget to remove the package as it is no longer needed!');
 
             return self::SUCCESS;
         }
 
         Process::fromShellCommandline('composer remove masmerise/laravel-revert --dev')
             ->run(fn (string $_, string $line) => $this->line("    {$line}"));
+
+        $this->components->success('Revert has been removed from your project. Happy Laraveling!');
 
         return self::SUCCESS;
     }

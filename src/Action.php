@@ -6,11 +6,10 @@ use Closure;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
+/** @internal */
 abstract class Action
 {
     protected string $description;
-
-    protected string $emoji;
 
     abstract protected function run(Filesystem $files, Application $laravel): void;
 
@@ -18,7 +17,7 @@ abstract class Action
 
     public function handle(Revert $cli, Closure $next): Revert
     {
-        $output = "{$this->emoji}{$this->description}...";
+        $output = "{$this->description}...";
 
         /** @var Application $laravel */
         $laravel = $cli->getLaravel();
@@ -27,12 +26,12 @@ abstract class Action
         $files = $laravel['files'];
 
         if ($this->wasRun($files, $laravel)) {
-            $cli->line("{$output} [skipped]");
+            $cli->outputComponents()->warn("{$output} [skipped]");
 
             return $next($cli);
         }
 
-        $cli->line($output);
+        $cli->outputComponents()->info($output);
 
         $this->run($files, $laravel);
 

@@ -5,11 +5,10 @@ namespace Masmerise\Revert;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
+/** @internal */
 final class RemoveBootstrapProviders extends Action
 {
     protected string $description = 'Removing bootstrap/providers.php';
-
-    protected string $emoji = '🧹';
 
     protected function run(Filesystem $files, Application $laravel): void
     {

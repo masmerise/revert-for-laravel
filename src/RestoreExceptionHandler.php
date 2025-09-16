@@ -5,11 +5,10 @@ namespace Masmerise\Revert;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
+/** @internal */
 final class RestoreExceptionHandler extends Action
 {
     protected string $description = 'Restoring App\\Exceptions\\Handler';
-
-    protected string $emoji = '🔄';
 
     protected function run(Filesystem $files, Application $laravel): void
     {

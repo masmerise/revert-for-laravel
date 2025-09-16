@@ -5,11 +5,10 @@ namespace Masmerise\Revert;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 
+/** @internal */
 final class RestoreApplicationBootstrapper extends Action
 {
     protected string $description = 'Restoring bootstrap/app.php';
-
-    protected string $emoji = '🔄';
 
     protected function run(Filesystem $files, Application $laravel): void
     {
@@ -20,6 +19,6 @@ final class RestoreApplicationBootstrapper extends Action
     {
         $bootstrapper = $files->get($laravel->basePath('bootstrap/app.php'));
 
-        return str_ends_with($bootstrapper, 'return $app;');
+        return str_contains($bootstrapper, 'return $app;');
     }
 }

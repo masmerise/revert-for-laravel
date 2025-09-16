@@ -6,11 +6,10 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 
+/** @internal */
 final class ReconcileBootstrapProvidersWithConfigurationProviders extends Action
 {
     protected string $description = 'Reconciling providers';
-
-    protected string $emoji = '🔀';
 
     protected function run(Filesystem $files, Application $laravel): void
     {
