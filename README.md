@@ -1,9 +1,9 @@
-<p align="center"><img src="https://github.com/masmerise/laravel-revert/raw/master/art/banner.png" alt="Laravel Revert Banner" width="480" height="480"></p>
+<p align="center"><img src="https://github.com/masmerise/revert-for-laravel/raw/master/art/banner.png" alt="Laravel Revert Banner" width="480" height="480"></p>
 
 # Revert Laravel installations to the original v5 skeleton
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/masmerise/laravel-revert.svg?style=flat-square)](https://packagist.org/packages/masmerise/laravel-revert)
-[![Total Downloads](https://img.shields.io/packagist/dt/masmerise/laravel-revert.svg?style=flat-square)](https://packagist.org/packages/masmerise/laravel-revert)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/masmerise/revert-for-laravel.svg?style=flat-square)](https://packagist.org/packages/masmerise/revert-for-laravel)
+[![Total Downloads](https://img.shields.io/packagist/dt/masmerise/revert-for-laravel.svg?style=flat-square)](https://packagist.org/packages/masmerise/revert-for-laravel)
 
 > [!WARNING]
 > This package is supposed to be used *right after* having installed a **fresh** Laravel project using `laravel new`. 
@@ -43,7 +43,7 @@ which is the elimination of the new `ApplicationBuilder`:
 You can install the package via [composer](https://getcomposer.org):
 
 ```bash
-composer require --dev masmerise/laravel-revert
+composer require --dev masmerise/revert-for-laravel
 ```
 
 ## Usage

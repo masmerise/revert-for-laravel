@@ -48,7 +48,7 @@ final class Revert extends Command
             return self::SUCCESS;
         }
 
-        Process::fromShellCommandline('composer remove masmerise/laravel-revert --dev')
+        Process::fromShellCommandline('composer remove masmerise/revert-for-laravel --dev')
             ->run(fn (string $_, string $line) => $this->line("    {$line}"));
 
         $this->components->success('Revert has been removed from your project. Happy Laraveling!');

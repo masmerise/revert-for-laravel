@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `laravel-revert` will be documented in this file.
+All notable changes to `revert-for-laravel` will be documented in this file.
 
 ## 12.1.0 - 2025-09-16
 

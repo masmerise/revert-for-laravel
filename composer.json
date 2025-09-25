@@ -1,5 +1,5 @@
 {
-    "name": "masmerise/laravel-revert",
+    "name": "masmerise/revert-for-laravel",
     "description": "Revert Laravel installations to the original v5 skeleton.",
     "license": "MIT",
     "keywords": [
@@ -13,7 +13,7 @@
             "role": "Developer"
         }
     ],
-    "homepage": "https://github.com/masmerise/laravel-revert",
+    "homepage": "https://github.com/masmerise/revert-for-laravel",
     "require": {
         "php": "~8.2 || ~8.3 || ~8.4",
         "laravel/framework": "^12.0"
